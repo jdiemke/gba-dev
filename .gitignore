@@ -1,0 +1,6 @@
+.vscode
+*.elf
+*.gba
+*.d
+*.o
+*.map
