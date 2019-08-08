@@ -8,6 +8,12 @@ A GBA Development Playground
 * [devkitARM](https://devkitpro.org/wiki/Getting_Started)
 * [mGBA](https://mgba.io/)
 
+## TODO
+
+* hblank wave effects (sine, noise, mod)
+* parallax scrolling
+* fading in out
+
 ## References
 
 * https://www.coranac.com/tonc/text/toc.htm
