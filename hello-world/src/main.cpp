@@ -3,7 +3,7 @@
 #define SCREEN_WIDTH    240
 #define SCREEN_HEIGHT   160
 
-#define RGB15(r, g, b) (r | (g<<5) | (b<<10))
+#define RGB15(r, g, b) ((r) | ((g) << 5) | ((b) << 10))
 
 void setDisplayMode(u32 mode) {
   REG_DISPCNT = mode;
