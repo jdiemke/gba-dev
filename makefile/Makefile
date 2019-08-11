@@ -1,11 +1,19 @@
-# GBA Makefile
+# Basic GBA Makefile Rules
+#
+# In order to use this makefile include it into your projects makefile
+# and add the ROM_NAME and SOURCE_FILES variables.
+#
+# Example:
+#
+# ROM_NAME        = demo
+# SOURCE_FILES    = main.cpp mode3.cpp
+# include ../makefile/Makefile
 
 PATH := $(DEVKITARM)/bin:$(PATH)
 
-ROM_NAME	   	= demo
 SOURCE			= src
 BUILD			= build
-SOURCE_FILES	= main.cpp mode3.cpp
+
 OBJECT_FILES	= $(SOURCE_FILES:.cpp=.o)
 
 CC      		= arm-none-eabi-gcc
