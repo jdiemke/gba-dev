@@ -1,17 +1,5 @@
-#include "gba.h"
-
-#define SCREEN_WIDTH    240
-#define SCREEN_HEIGHT   160
-
-#define RGB15(r, g, b) ((r) | ((g) << 5) | ((b) << 10))
-
-void setDisplayMode(u32 mode) {
-  REG_DISPCNT = mode;
-}
-
-void setPixel(int x, int y, u16 color) {
-  VIDEO_MEM[x + y * SCREEN_WIDTH] = color;
-}
+#include "gba.hpp"
+#include "mode3.hpp"
 
 int main() {
   setDisplayMode(DCNT_MODE3 | DCNT_BG2);
