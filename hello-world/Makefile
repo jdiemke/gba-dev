@@ -2,7 +2,7 @@
 
 PATH := $(DEVKITARM)/bin:$(PATH)
 
-ROM_NAME		= demo
+ROM_NAME	   	= demo
 SOURCE			= src
 BUILD			= build
 SOURCE_FILES	= main.cpp mode3.cpp
