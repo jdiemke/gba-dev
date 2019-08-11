@@ -1,13 +1,11 @@
-#include "mode3.hpp"
+#include "line.hpp"
 #include <math.h>
 #include "gba.hpp"
-#include "line.hpp"
+#include "mode3.hpp"
 
 inline int sign(int val) { return (val > 0) ? 1 : ((val < 0) ? -1 : 0); }
 
-inline int fixedPointRound(int val) {
-    return (val + 128) >> 8;
-}
+inline int fixedPointRound(int val) { return (val + 128) >> 8; }
 
 void drawLineDDA(Point &start, Point &end, u16 &color) {
   int xDistance = (end.x - start.x);
@@ -16,12 +14,12 @@ void drawLineDDA(Point &start, Point &end, u16 &color) {
   int dx, dy, length;
 
   if (abs(xDistance) > abs(yDistance)) {
-    dx = sign(xDistance) * 256;
-    dy = yDistance * 256 / abs(xDistance);
+    dx = sign(xDistance) << 8;
+    dy = yDistance << 8 / abs(xDistance);
     length = abs(xDistance);
   } else {
-    dx = xDistance * 256 / abs(yDistance);
-    dy = sign(yDistance) * 256;
+    dx = xDistance << 8 / abs(yDistance);
+    dy = sign(yDistance) << 8;
     length = abs(yDistance);
   }
 
