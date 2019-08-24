@@ -1,3 +1,7 @@
+/**
+ * This bitmap mode effect can be implemented more efficient
+ * using HW background scrolling, translation and scaling!
+ */
 #include <gba_interrupt.h>
 #include <gba_systemcalls.h>
 #include <math.h>
@@ -7,6 +11,7 @@
 #include "font.h"
 #include "gba.h"
 #include "girl.h"
+#include "assembly/division.h"
 
 #define REG_VCOUNT *(volatile u16 *)0x04000006
 #define EWRAM_DATA __attribute__((section(".ewram")))
@@ -16,34 +21,12 @@
 u16 backbuffer[240 * 160] EWRAM_DATA;
 
 u32 time = 0;
- static inline void biosDivision(s32 numerator, s32 denominator, s32* result, s32* remainder) {
-//---------------------------------------------------------------------------------
-	s32 __result, __remainder;
-
-    asm volatile (
-        "mov   r0, %[numerator]   \n\t"
-        "mov   r1, %[denominator]   \n\t"
-        "swi   6        \n\t" // Put 6 here for Thumb C Compiler mode.
-        "mov   %[result], r0\n\t"
-        "mov   %[remainder], r1\n\t"
-
-        : [result] "=l" (__result), [remainder] "=l" (__remainder)
-
-        : [numerator] "l" (numerator), [denominator] "l" (denominator)
-
-		: "r0","r1","r2","r3"
-    );
-	
-	*result = __result;
-	*remainder = __remainder;
-}
 
 static inline void drawSpan(int x1, int x2, int y) {
   int xpos = 0;
-  s32 forwardDiff, dummy;
+  s32 forwardDiff;
   
-
-  biosDivision(((8 << 8) << 8) , ((x2 - x1) << 8), &forwardDiff, &dummy);
+  biosDivisionAsm(((8 << 8) << 8) , ((x2 - x1) << 8), &forwardDiff);
 
   u16 *fb = backbuffer + 240 * y + x1;
 
