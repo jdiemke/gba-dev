@@ -60,16 +60,15 @@ int IWRAM_CODE main(void) {
   memcpy((int *)pal, dest2Pal, dest2PalLen);
 
   createTrigLut();
-
+  char *text =
+      "                              "
+      "HI BITCHES!! THIS IS TRIGGER TALKING :) ... WANT TO KNOW WHATS NEW? "
+      "WELL, ITS RELEASE TIME AND GENESIS WILL RELEASE SOME NICE PC FIRST "
+      "SOON.... ";
+  int len = strlen(text);
+  
   while (true) {
     time++;
-
-    char *text =
-        "                              "
-        "HI BITCHES!! THIS IS TRIGGER TALKING :) ... WANT TO KNOW WHATS NEW? "
-        "WELL, ITS RELEASE TIME AND GENESIS WILL RELEASE SOME NICE PC FIRST "
-        "SOON.... ";
-    int len = strlen(text);
 
     VBlankIntrWait();
     for (int i = 0; i < 31; i++) {
@@ -80,11 +79,11 @@ int IWRAM_CODE main(void) {
           8;
 
       const int yPos = sineWave + center;
-      const int xPos = i * 8 - (time & 7) & 0x1ff;
+      const int xPos = (i << 3) - (time & 7) & 0x1ff;
 
       oam_mem[i].attr0 = yPos | 1 << 13;
       oam_mem[i].attr1 = xPos | 0 << 14;
-      oam_mem[i].attr2 = 512 + ((text[(i + ((time) / 8)) % len] - ' ') * 2);
+      oam_mem[i].attr2 = 512 + ((text[(i + ((time) >> 3)) % len] - ' ') << 1);
     }
   }
 

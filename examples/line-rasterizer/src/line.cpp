@@ -3,31 +3,33 @@
 #include "gba.hpp"
 #include "mode3.hpp"
 
-inline int sign(int val) { return (val > 0) ? 1 : ((val < 0) ? -1 : 0); }
+static inline int sign(int val) { return (val > 0) ? 1 : ((val < 0) ? -1 : 0); }
 
-inline int fixedPointRound(int val) { return (val + 128) >> 8; }
+extern "C" {
+s32 biosDivisionAsm(s32 numerator, s32 denominator, s32 *result);
+}
 
+// todo: optimize with assembly language
 void drawLineDDA(Point &start, Point &end, u16 &color) {
-  int xDistance = (end.x - start.x);
-  int yDistance = (end.y - start.y);
-
-  int dx, dy, length;
+  s32 xDistance = (end.x - start.x);
+  s32 yDistance = (end.y - start.y);
+  s32 dx, dy, length;
 
   if (abs(xDistance) > abs(yDistance)) {
     dx = sign(xDistance) << 8;
-    dy = yDistance << 8 / abs(xDistance);
+    biosDivisionAsm(yDistance << 8, abs(xDistance), &dy);
     length = abs(xDistance);
   } else {
-    dx = xDistance << 8 / abs(yDistance);
+    biosDivisionAsm(xDistance << 8, abs(yDistance), &dx);
     dy = sign(yDistance) << 8;
     length = abs(yDistance);
   }
 
-  int xPosition = start.x * 256;
-  int yPosition = start.y * 256;
+  int xPosition = (start.x << 8) + 128;
+  int yPosition = (start.y << 8) + 128;
 
   for (int i = 0; i <= length; i++) {
-    setPixel(fixedPointRound(xPosition), fixedPointRound(yPosition), color);
+    setPixel(xPosition >> 8, yPosition >> 8, color);
     xPosition += dx;
     yPosition += dy;
   }

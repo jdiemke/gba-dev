@@ -16,10 +16,34 @@
 u16 backbuffer[240 * 160] EWRAM_DATA;
 
 u32 time = 0;
+ static inline void biosDivision(s32 numerator, s32 denominator, s32* result, s32* remainder) {
+//---------------------------------------------------------------------------------
+	s32 __result, __remainder;
+
+    asm volatile (
+        "mov   r0, %[numerator]   \n\t"
+        "mov   r1, %[denominator]   \n\t"
+        "swi   6        \n\t" // Put 6 here for Thumb C Compiler mode.
+        "mov   %[result], r0\n\t"
+        "mov   %[remainder], r1\n\t"
+
+        : [result] "=l" (__result), [remainder] "=l" (__remainder)
+
+        : [numerator] "l" (numerator), [denominator] "l" (denominator)
+
+		: "r0","r1","r2","r3"
+    );
+	
+	*result = __result;
+	*remainder = __remainder;
+}
 
 static inline void drawSpan(int x1, int x2, int y) {
   int xpos = 0;
-  int forwardDiff = ((8 << 8) << 8) / ((x2 - x1) << 8);
+  s32 forwardDiff, dummy;
+  
+
+  biosDivision(((8 << 8) << 8) , ((x2 - x1) << 8), &forwardDiff, &dummy);
 
   u16 *fb = backbuffer + 240 * y + x1;
 

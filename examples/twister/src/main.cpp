@@ -81,7 +81,7 @@ void createTrigLut(void) {
 void twister(u32 time) {
   int posx = 120;
 
-  u32 step = 512 / 4;
+  u32 step = 512 >> 2;
   u32 y = 0;
   for (y = 0; y < 160; y++) {
     int sub = (time << 2) +

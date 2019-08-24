@@ -1,21 +1,28 @@
+#include <gba_console.h>
+#include <gba_timers.h>
+#include <gba_video.h>
 #include <math.h>
-#include "gba.hpp"
+// #include "gba.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 #include "line.hpp"
 #include "mode3.hpp"
 
 int main() {
   setDisplayMode(DCNT_MODE3 | DCNT_BG2);
 
-  for (int x = 0; x < SCREEN_WIDTH; x++) {
-    for (int y = 0; y < SCREEN_HEIGHT; y++) {
-      setPixel(x, y, RGB15(0, 31, 0));
-    }
-  }
+  Point start;
+  Point end;
+  u16 color;
 
   while (true) {
-    Point start = {rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT};
-    Point end = {rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT};
-    u16 color = rand() & 0xffff;
+    start.x = rand() % SCREEN_WIDTH;
+    start.y = rand() % SCREEN_HEIGHT;
+
+    end.x = rand() % SCREEN_WIDTH;
+    end.y =  rand() % SCREEN_HEIGHT;
+
+    color = rand() & 0xffff;
 
     drawLineDDA(start, end, color);
   }

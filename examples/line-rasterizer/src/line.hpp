@@ -6,3 +6,4 @@ struct Point {
 };
 
 void drawLineDDA(Point &start, Point &end, u16 &color);
+void drawLineDDA2(Point &start, Point &end, u16 &color);
