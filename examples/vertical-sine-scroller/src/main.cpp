@@ -11,7 +11,7 @@
 #include "font.h"
 #include "gba.h"
 #include "girl.h"
-#include "assembly/division.h"
+#include "division.h"
 
 #define REG_VCOUNT *(volatile u16 *)0x04000006
 #define EWRAM_DATA __attribute__((section(".ewram")))

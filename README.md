@@ -17,6 +17,7 @@ A GBA Development Playground
 ## References
 
 * https://www.coranac.com/tonc/text/toc.htm
+* https://problemkaputt.de/gbatek.htm
 * http://kylehalladay.com/gba.html
 * https://www.gbadev.org/index.php
 * https://patater.com/gbaguy/gbaasm.htm

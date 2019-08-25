@@ -2,14 +2,10 @@
 #include <math.h>
 #include "gba.hpp"
 #include "mode3.hpp"
+#include "division.h"
 
 static inline int sign(int val) { return (val > 0) ? 1 : ((val < 0) ? -1 : 0); }
 
-extern "C" {
-s32 biosDivisionAsm(s32 numerator, s32 denominator, s32 *result);
-}
-
-// todo: optimize with assembly language
 void drawLineDDA(Point &start, Point &end, u16 &color) {
   s32 xDistance = (end.x - start.x);
   s32 yDistance = (end.y - start.y);

@@ -1,5 +1,4 @@
 #include "gba.hpp"
-#include <gba_video.h>
 
 void setDisplayMode(u32 mode);
 inline void setPixel(int x, int y, u16 color) {
